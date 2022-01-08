@@ -1,4 +1,4 @@
-package com.vodafone.technicalassessment
+package com.vodafone.technicalassessment.presentation.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,7 +8,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.vodafone.technicalassessment.ui.theme.TechnicalAssessmentTheme
+import com.vodafone.technicalassessment.presentation.ui.theme.TechnicalAssessmentTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.vodafone.technicalassessment.ui.theme
+package com.vodafone.technicalassessment.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
