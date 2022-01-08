@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Technical Assessment</string>
+
+    <!-- generic errors -->
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="generic_error">A problem occurred please try again</string>
+    <string name="no_data_available">No Data Available</string>
+    <string name="something_wrong">Something wrong. Try again</string>
+
 </resources>
