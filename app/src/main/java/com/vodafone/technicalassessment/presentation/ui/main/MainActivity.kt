@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.google.android.gms.ads.MobileAds
 import com.vodafone.technicalassessment.presentation.ui.theme.TechnicalAssessmentTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +24,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MobileAds.initialize(this) {}
 
         setContent {
             scaffoldState = rememberScaffoldState()
@@ -54,7 +56,8 @@ class MainActivity : ComponentActivity() {
                                     // item view
                                     ItemView(
                                         author = item.author!!,
-                                        image = item.download_url!!
+                                        image = item.download_url!!,
+                                        showAd = index % 5 == 0 && index > 0
                                     )
                                 }
                             }

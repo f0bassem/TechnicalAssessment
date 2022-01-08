@@ -97,6 +97,9 @@ dependencies {
     // core
     implementation("androidx.core:core-ktx:1.7.0")
 
+    // ads
+    implementation 'com.google.android.gms:play-services-ads:20.5.0'
+
     // robolectric tests.
     testImplementation 'com.google.dagger:hilt-android-testing:2.28.3-alpha'
     kaptTest 'com.google.dagger:hilt-android-compiler:2.38.1'

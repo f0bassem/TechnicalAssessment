@@ -7,4 +7,8 @@
     <string name="no_data_available">No Data Available</string>
     <string name="something_wrong">Something wrong. Try again</string>
 
+    <!-- sample ad mob app iD -->
+    <string name="ad_id_banner">ca-app-pub-3940256099942544~3347511713</string>
+
+    <string name="author">Author</string>
 </resources>
