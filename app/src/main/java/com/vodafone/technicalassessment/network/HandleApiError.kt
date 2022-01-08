@@ -13,7 +13,7 @@ class HandleApiError @Inject constructor(
     private val resourceProvider: ResourceProvider,
 ) {
 
-    suspend fun handleApiError(
+    fun handleApiError(
         error: HttpException,
     ): Pair<Int, String> {
         when (error.code()) {

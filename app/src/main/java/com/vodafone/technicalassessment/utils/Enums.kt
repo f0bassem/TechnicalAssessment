@@ -1,4 +1,3 @@
 package com.vodafone.technicalassessment.utils
 
-class Enums {
-}
+enum class Status { LOADING, SUCCESS, ERROR, FAILED }

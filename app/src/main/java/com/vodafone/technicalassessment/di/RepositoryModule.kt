@@ -26,13 +26,11 @@ object RepositoryModule {
         resourceProvider: ResourceProvider,
         networkManager: NetworkManager,
         handleApiError: HandleApiError,
-        preferenceHelper: PreferenceHelper
     ): MainRepository = MainRepositoryImpl(
         service = service,
         domainMapper = domainMapper,
         resourceProvider = resourceProvider,
         networkManager = networkManager,
         handleApiError = handleApiError,
-        preferenceHelper = preferenceHelper
     )
 }
