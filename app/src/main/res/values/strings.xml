@@ -11,4 +11,5 @@
     <string name="ad_id_banner">ca-app-pub-3940256099942544~3347511713</string>
 
     <string name="author">Author</string>
+    <string name="title_activity_details">DetailsActivity</string>
 </resources>

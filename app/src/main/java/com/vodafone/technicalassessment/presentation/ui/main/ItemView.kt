@@ -1,16 +1,18 @@
 package com.vodafone.technicalassessment.presentation.ui.main
 
+import android.graphics.Bitmap
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,10 +29,23 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.vodafone.technicalassessment.R
+import com.vodafone.technicalassessment.presentation.base.AppConfiguration.Companion.AD_ID
+import com.vodafone.technicalassessment.presentation.components.getRGB
+import com.vodafone.technicalassessment.presentation.components.loadPicture
 import com.vodafone.technicalassessment.presentation.ui.theme.TransparentBlack
+import com.vodafone.technicalassessment.utils.Status
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ItemView(author: String, image: String, showAd: Boolean) {
+fun ItemView(author: String, image: String, showAd: Boolean, onClick: (Int?) -> Unit) {
+
+    val bitmap = remember { mutableStateOf<Bitmap?>(null) }
+    var rgb: Int? = null
+
+    val refresh = remember { mutableStateOf<Status?>(null) }
+    if (refresh.value != Status.SUCCESS) {
+        bitmap.value = loadPicture(url = image)
+    }
 
     if (showAd)
         AdItem()
@@ -39,29 +54,63 @@ fun ItemView(author: String, image: String, showAd: Boolean) {
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .requiredHeight(250.dp),
+            .height(250.dp)
+            .clickable {
+                if (rgb != null) {
+                    onClick(rgb)
+                } else {
+                    refresh.value = Status.LOADING
+                }
+            },
         shape = RoundedCornerShape(26.dp),
         elevation = 4.dp,
     ) {
         ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-            val (imageRefs, textRefs) = createRefs()
+            val (imageRefs, refreshRefs, textRefs) = createRefs()
+
+            bitmap.value = loadPicture(url = image)
 
             // image
-            Image(
+            if (bitmap.value != null) {
+                rgb = getRGB(bitmap = bitmap.value!!)
+                refresh.value = Status.SUCCESS
+                Image(
+                    modifier = Modifier
+                        .height(250.dp)
+                        .constrainAs(imageRefs) {
+                            start.linkTo(anchor = parent.start)
+                            end.linkTo(anchor = parent.end)
+                            top.linkTo(anchor = parent.top)
+                            bottom.linkTo(anchor = parent.bottom)
+                            width = Dimension.fillToConstraints
+                            height = Dimension.fillToConstraints
+
+                        },
+                    painter = rememberImagePainter(data = bitmap.value!!),
+                    contentDescription = "$author - image",
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                refresh.value = Status.FAILED
+            }
+
+            AnimatedVisibility(
                 modifier = Modifier
-                    .constrainAs(imageRefs) {
-                        start.linkTo(anchor = parent.start)
+                    .size(48.dp)
+                    .constrainAs(refreshRefs) {
                         end.linkTo(anchor = parent.end)
                         top.linkTo(anchor = parent.top)
-                        bottom.linkTo(anchor = parent.bottom)
-                        width = Dimension.fillToConstraints
-                        height = Dimension.fillToConstraints
-
                     },
-                painter = rememberImagePainter(data = image),
-                contentDescription = "$author - image",
-                contentScale = ContentScale.Crop
-            )
+                visible = refresh.value != Status.SUCCESS
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .padding(8.dp),
+                    imageVector = Icons.Filled.Refresh,
+                    contentDescription = "refresh"
+                )
+            }
 
             Surface(
                 modifier = Modifier
@@ -69,11 +118,10 @@ fun ItemView(author: String, image: String, showAd: Boolean) {
                     .constrainAs(textRefs) {
                         start.linkTo(anchor = parent.start, margin = 0.dp)
                         end.linkTo(anchor = parent.end, margin = 0.dp)
-                        bottom.linkTo(anchor = imageRefs.bottom)
+                        bottom.linkTo(anchor = parent.bottom)
                     },
                 color = TransparentBlack
             ) {
-
                 // text
                 Text(
                     modifier = Modifier.padding(
@@ -93,7 +141,6 @@ fun ItemView(author: String, image: String, showAd: Boolean) {
     }
 }
 
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AdItem() {
@@ -111,7 +158,7 @@ fun AdItem() {
                         context,
                         AdSize.FULL_WIDTH
                     )
-                    adUnitId = "ca-app-pub-3940256099942544/6300978111"
+                    adUnitId = AD_ID
                     loadAd(AdRequest.Builder().build())
                 }
             },

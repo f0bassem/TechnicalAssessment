@@ -1,11 +1,13 @@
 package com.vodafone.technicalassessment.presentation.ui.main
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.palette.graphics.Palette
 import com.vodafone.technicalassessment.domain.List
-import com.vodafone.technicalassessment.manager.local.ResourceProvider
 import com.vodafone.technicalassessment.repository.MainRepository
 import com.vodafone.technicalassessment.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,8 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    val repository: MainRepository,
-    val resourceProvider: ResourceProvider
+    private val repository: MainRepository,
 ) : ViewModel() {
 
     val apiStatus = mutableStateOf<Status?>(value = null)
@@ -25,6 +26,10 @@ class MainViewModel @Inject constructor(
     val itemsList = mutableStateListOf<List>()
 
     var page: Int = 1
+
+    var result = mutableStateOf<Drawable?>(null)
+    var bitmap = mutableStateOf<Bitmap?>(null)
+    var palette = mutableStateOf<Palette?>(null)
 
     init {
         onTriggerEvent(MainEvent.GetList)

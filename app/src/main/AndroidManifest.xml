@@ -12,9 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TechnicalAssessment">
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/ad_id_banner" />
+        <activity
+            android:name=".presentation.ui.details.DetailsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_details"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TechnicalAssessment.NoActionBar" />
         <activity
             android:name=".presentation.ui.main.MainActivity"
             android:exported="true"
@@ -27,6 +30,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/ad_id_banner" />
+    </application>
 </manifest>
