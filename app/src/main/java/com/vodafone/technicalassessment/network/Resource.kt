@@ -8,7 +8,12 @@ sealed class Resource<T>(
     val message: String? = ""
 ) {
     class Loading<T> : Resource<T>(apiStatus = Status.LOADING)
+
     class Success<T>(data: T? = null) : Resource<T>(data = data, apiStatus = Status.SUCCESS)
-    class Error<T>(message: String?) : Resource<T>(apiStatus = Status.ERROR, message = message)
-    class Failed<T>(message: String? = null, data: T? = null) : Resource<T>(message = message, data = data, apiStatus = Status.FAILED)
+
+    class Error<T>(message: String? = null, data: T? = null) :
+        Resource<T>(apiStatus = Status.ERROR, message = message, data = data)
+
+    class Failed<T>(message: String? = null, data: T? = null) :
+        Resource<T>(apiStatus = Status.FAILED, message = message, data = data)
 }

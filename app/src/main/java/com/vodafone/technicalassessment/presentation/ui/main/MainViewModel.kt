@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.palette.graphics.Palette
-import com.vodafone.technicalassessment.domain.List
+import com.vodafone.technicalassessment.domain.dto.main.ListItemDTO
 import com.vodafone.technicalassessment.repository.MainRepository
 import com.vodafone.technicalassessment.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +23,7 @@ class MainViewModel @Inject constructor(
 
     val apiStatus = mutableStateOf<Status?>(value = null)
 
-    val itemsList = mutableStateListOf<List>()
+    val itemsList = mutableStateListOf<ListItemDTO>()
 
     var page: Int = 1
 
@@ -46,8 +46,18 @@ class MainViewModel @Inject constructor(
     private suspend fun getList() {
         repository.getList(page = page).onEach {
             apiStatus.value = it.apiStatus
-            if (it.apiStatus == Status.SUCCESS)
-                it.data?.let { list -> itemsList.addAll(list) }
+            when (it.apiStatus) {
+                Status.SUCCESS -> it.data?.let { list -> itemsList.addAll(list) }
+                Status.ERROR,
+                Status.FAILED -> {
+                    it.data?.let { list ->
+                        if (itemsList.size <= 0)
+                            itemsList.addAll(list)
+                    }
+                }
+            }
+
+
         }.launchIn(viewModelScope)
     }
 }

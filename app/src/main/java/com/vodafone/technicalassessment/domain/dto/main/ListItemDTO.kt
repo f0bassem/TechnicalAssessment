@@ -1,12 +1,12 @@
-package com.vodafone.technicalassessment.domain
+package com.vodafone.technicalassessment.domain.dto.main
 
 import android.graphics.Bitmap
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class List(
-    val id: String? = null,
+data class ListItemDTO(
+    val id: Int? = null,
     val author: String? = null,
     val width: Int? = null,
     val height: Int? = null,

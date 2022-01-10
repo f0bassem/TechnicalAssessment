@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ListResponseModel(
-    @SerializedName("id") val id: String? = null,
+    @SerializedName("id") val id: Int? = null,
     @SerializedName("author") val author: String? = null,
     @SerializedName("width") val width: Int? = null,
     @SerializedName("height") val height: Int? = null,

@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,8 +42,8 @@ fun ItemView(author: String, image: String, showAd: Boolean, onClick: (Int?) -> 
     val bitmap = remember { mutableStateOf<Bitmap?>(null) }
     var rgb: Int? = null
 
-    val refresh = remember { mutableStateOf<Status?>(null) }
-    if (refresh.value != Status.SUCCESS) {
+    val imageLoading = remember { mutableStateOf<Status?>(null) }
+    if (imageLoading.value != Status.SUCCESS) {
         bitmap.value = loadPicture(url = image)
     }
 
@@ -59,7 +59,7 @@ fun ItemView(author: String, image: String, showAd: Boolean, onClick: (Int?) -> 
                 if (rgb != null) {
                     onClick(rgb)
                 } else {
-                    refresh.value = Status.LOADING
+                    imageLoading.value = Status.LOADING
                 }
             },
         shape = RoundedCornerShape(26.dp),
@@ -73,7 +73,7 @@ fun ItemView(author: String, image: String, showAd: Boolean, onClick: (Int?) -> 
             // image
             if (bitmap.value != null) {
                 rgb = getRGB(bitmap = bitmap.value!!)
-                refresh.value = Status.SUCCESS
+                imageLoading.value = Status.SUCCESS
                 Image(
                     modifier = Modifier
                         .height(250.dp)
@@ -91,23 +91,26 @@ fun ItemView(author: String, image: String, showAd: Boolean, onClick: (Int?) -> 
                     contentScale = ContentScale.Crop
                 )
             } else {
-                refresh.value = Status.FAILED
+                imageLoading.value = Status.FAILED
             }
 
             AnimatedVisibility(
                 modifier = Modifier
-                    .size(48.dp)
+                    //.size(48.dp)
                     .constrainAs(refreshRefs) {
+                        start.linkTo(anchor = parent.start)
                         end.linkTo(anchor = parent.end)
                         top.linkTo(anchor = parent.top)
+                        bottom.linkTo(anchor = parent.bottom)
                     },
-                visible = refresh.value != Status.SUCCESS
+                visible = imageLoading.value != Status.SUCCESS
             ) {
                 Icon(
                     modifier = Modifier
                         .size(48.dp)
                         .padding(8.dp),
-                    imageVector = Icons.Filled.Refresh,
+                    imageVector = Icons.Filled.Image,
+                    tint = Color.LightGray,
                     contentDescription = "refresh"
                 )
             }
