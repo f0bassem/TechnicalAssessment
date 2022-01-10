@@ -10,6 +10,8 @@
         <entry key="../../../../layout/compose-model-1641676633034.xml" value="1.0" />
         <entry key="../../../../layout/compose-model-1641678494282.xml" value="0.26055743243243246" />
         <entry key="../../../../layout/compose-model-1641777530258.xml" value="0.2719594594594595" />
+        <entry key="app/src/main/res/drawable/ic_connectivity_available.xml" value="0.321025641025641" />
+        <entry key="app/src/main/res/drawable/ic_connectivity_unavailable.xml" value="0.321025641025641" />
       </map>
     </option>
   </component>
